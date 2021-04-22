@@ -34,6 +34,7 @@ export default class Server {
         console.log('Escuchando conexiones - sockets');
 
         // On: Escuchar algún evento.
+        debugger;
         this.io.on('connection', cliente => {
 
             console.log('Id cliente conectado', cliente.id);

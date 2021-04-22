@@ -1,5 +1,13 @@
 
-src/node_modules/*
-src/package-lock.json
-src/dist/*
+backend/node_modules/*
+backend/package-lock.json
+backend/dist/*
 package-lock.json
+canvas-client/e2e
+canvas-client/e2e/*.js
+canvas-client/e2e/*.map
+canvas-client/.editorconfig
+canvas-client/tslint.json
+canvas-client/tsconfig.spec.json
+canvas-client/tsconfig.json
+canvas-client/tsconfig.app.json
