@@ -53,6 +53,8 @@ export default class Server {
             // Desconectar
             socket.desconectar(cliente, this.io);
 
+            
+            
         });
     }
 

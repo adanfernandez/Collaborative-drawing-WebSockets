@@ -1,5 +1,5 @@
 import Server from './model/server';
-import { router } from "./routes/router";
+import { router } from "./routes/router"
 import bodyParser from "body-parser";
 import cors from 'cors';
 
