@@ -1,0 +1,10 @@
+body {
+    background-color: #fff;
+    width: 960px;
+    margin: 0 auto;
+    font-family: Verdana;
+}
+
+canvas {
+    border: 1px solid rgb(195, 195, 195);
+}
