@@ -10,13 +10,14 @@ export const usuariosConectados = new UsuariosLista();
 export const desconectar = (cliente: Socket, io: SocketIO.Server) => {
     cliente.on('disconnect', () => {
         usuariosConectados.borrarUsuarios(cliente.id);
+        console.log("Desconectando - " + usuariosConectados.getLista().length + "\n\n");
         io.emit('usuarios-activos', usuariosConectados.getLista());
     });
 }
 
 export const conectarCliente = (cliente: Socket, io: SocketIO.Server) => {
-    const usuario = new Usuario(cliente.id);
-    usuariosConectados.agregar(usuario);
+        const usuario = new Usuario(cliente.id);
+        usuariosConectados.agregar(usuario);
 }
 
 
@@ -50,4 +51,24 @@ export const obtenerUsuarios = (cliente: Socket, io: socketIO.Server) => {
         // Con el to, emitimos a un usuario específico
         io.to(cliente.id).emit('usuarios-activos', usuariosConectados.getLista());
     });
+}
+
+
+
+export const pintar = (cliente: Socket, io: socketIO.Server) => {
+    cliente.on('dibujar', function incoming(message) {
+        console.log("A message arrived!")
+        console.log('received: %s', message);
+        cliente.broadcast.emit('dibujar', message);
+    });
+}
+
+function isJson(str: string){
+    try{
+        JSON.parse(str);
+    }
+    catch (e){
+        return false;
+    }
+    return true;
 }

@@ -6,9 +6,8 @@ export const router = Router();
 
 
 router.get('/dibujo', (req: Request, res: Response) => {
-    res.json("Testing");
+    res.json("Testing get");
 });
-
 
 
 export default router;

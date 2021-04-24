@@ -35,9 +35,7 @@ export default class Server {
 
         // On: Escuchar algún evento.
         debugger;
-        this.io.on('connection', cliente => {
-
-            console.log('Id cliente conectado', cliente.id);
+        this.io.on('connect', cliente => {
 
             // Conectar cliente
             socket.conectarCliente(cliente, this.io);
@@ -54,7 +52,8 @@ export default class Server {
             // Desconectar
             socket.desconectar(cliente, this.io);
 
-            
+            //Pintar
+            socket.pintar(cliente, this.io);
             
         });
     }
