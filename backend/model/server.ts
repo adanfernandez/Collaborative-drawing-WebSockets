@@ -54,6 +54,8 @@ export default class Server {
 
             //Pintar
             socket.pintar(cliente, this.io);
+
+            socket.usuariosActivos(cliente, this.io);
             
         });
     }

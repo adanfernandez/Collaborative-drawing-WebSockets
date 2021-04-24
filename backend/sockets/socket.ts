@@ -29,6 +29,8 @@ export const mensaje = (cliente: Socket, io: socketIO.Server) => {
     });
 }
 
+
+
 // Configurar usuario
 export const configurarUsuario = (cliente: Socket, io: socketIO.Server) => {
     // Este es el manejador del evento
@@ -59,16 +61,10 @@ export const pintar = (cliente: Socket, io: socketIO.Server) => {
     cliente.on('dibujar', function incoming(message) {
         console.log("A message arrived!")
         console.log('received: %s', message);
-        cliente.broadcast.emit('dibujar', message);
+        cliente.broadcast.emit('get-dibujo', message);
     });
 }
 
-function isJson(str: string){
-    try{
-        JSON.parse(str);
-    }
-    catch (e){
-        return false;
-    }
-    return true;
+export const usuariosActivos = (cliente: Socket, io: socketIO.Server) => {
+    io.emit('usuarios-activos', usuariosConectados.getLista());
 }

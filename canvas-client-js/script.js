@@ -12,7 +12,16 @@ function init() {
 function initServer() {
     websocket = io.connect("http://localhost:5000");
     websocket.on('connect', () => { console.log(websocket.connected); });
-    websocket.on("dibujar", onMessageFromServer);
+
+    websocket.on("get-dibujo", (canvasmsg) => {
+        const shape = new fabric.Circle(canvasmsg.shape);
+        canvas.add(shape);
+    });
+
+    websocket.on("usuarios-activos", (usuarios) => {
+        document.getElementById("number-users").innerHTML = usuarios.length;
+    });
+
     websocket.on("disconnect", function() {
         console.log("client disconnected from server");
     });
@@ -30,15 +39,15 @@ function addCircleHandler() {
         top: 100
     };
     const shape = new fabric.Circle(obj);
+    sendObject("Circulo", obj);
     canvas.add(shape);
-    sendObject();
 }
 
-function sendObject() {
-    console.log("Sending data");
-    websocket.emit("dibujar", JSON.stringify({ 'canvas': canvas }));
+function sendObject(type, obj) {
+    debugger;
+    websocket.emit("dibujar", { 'type': type, "shape": obj });
 }
 
-function onMessageFromServer(canvasmsg) {
-    canvas = canvasmsg;
+function randomNumber() {
+    return Math.random() * 250;
 }
