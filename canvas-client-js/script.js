@@ -7,6 +7,18 @@ function init() {
     canvas.freeDrawingBrush.lineWidth = 20;
     pencil.addEventListener('click', pencilHandler);
     addCircle.addEventListener('click', addCircleHandler);
+    canvas.on('object:moving', function() {
+        console.log('Event object:moving Triggered');
+    });
+    canvas.on('object:modified', function() {
+        console.log('Event object:modified Triggered');
+    });
+    canvas.on('mouse:up', function() {
+        console.log('Event mouse:up Triggered');
+    });
+    canvas.on('mouse:down', function() {
+        console.log('Event mouse:down Triggered');
+    });
 }
 
 function initServer() {
