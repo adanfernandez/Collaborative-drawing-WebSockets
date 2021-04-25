@@ -29,17 +29,7 @@ function initServer() {
         canvas.clear();
         const shapes = canvasmsg.canvas.objects;
         shapes.forEach(element => {
-            let shape = null;
-            if (element.type = "circle") {
-                const obj = {
-                    radius: element.radius,
-                    fill: element.fill,
-                    left: element.left,
-                    top: element.top
-                };
-                shape = new fabric.Circle(obj);
-            }
-            canvas.add(shape);
+            canvas.add(getShapeFromServer(element));
         });
     });
 
@@ -51,6 +41,20 @@ function initServer() {
         console.log("client disconnected from server");
     });
 }
+
+function getShapeFromServer(element) {
+    if (element.type = "circle") {
+        const obj = {
+            radius: element.radius,
+            fill: element.fill,
+            left: element.left,
+            top: element.top
+        };
+        return new fabric.Circle(obj);
+    }
+}
+
+
 
 function pencilHandler() {
     canvas.isDrawingMode = true;

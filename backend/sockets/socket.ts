@@ -5,7 +5,7 @@ import { Usuario } from '../model/usuario';
 
 
 export const usuariosConectados = new UsuariosLista();
-
+export let shapes = [];
 
 export const desconectar = (cliente: Socket, io: SocketIO.Server) => {
     cliente.on('disconnect', () => {
@@ -56,11 +56,9 @@ export const obtenerUsuarios = (cliente: Socket, io: socketIO.Server) => {
 }
 
 
-
 export const pintar = (cliente: Socket, io: socketIO.Server) => {
     cliente.on('dibujar', function incoming(message) {
-        console.log("A message arrived!")
-        console.log('received: %s', message);
+        shapes = message.canvas.objects;
         cliente.broadcast.emit('get-dibujo', message);
     });
 }
