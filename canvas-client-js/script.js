@@ -110,7 +110,7 @@ function randomNumber() {
 }
 
 function randomColor() {
-    const colores = ["blue", "green", "red"];
+    const colores = ["blue", "green", "red", "black", "white", "gray", "yellow"];
     const index = Math.round(Math.random() * (colores.length - 1));
     return colores[index];
 }
