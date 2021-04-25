@@ -40,6 +40,18 @@ function initServer() {
     websocket.on("disconnect", function() {
         console.log("client disconnected from server");
     });
+    getInitialShapes();
+}
+
+function getInitialShapes() {
+    var url = "http://localhost:5000/dibujo";
+    $.getJSON(url, function(shapes) {
+        console.log(shapes);
+        shapes.forEach(element => {
+            canvas.add(getShapeFromServer(element));
+        });
+    });
+
 }
 
 function getShapeFromServer(element) {
