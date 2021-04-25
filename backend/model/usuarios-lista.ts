@@ -11,8 +11,6 @@ export class UsuariosLista {
      */
     public agregar(usuario: Usuario) {
         this.lista.push(usuario);
-        console.log(this.lista);
-        console.log("Conectando - " + this.lista.length + "\n\n");
         return usuario;
     }
 
@@ -28,8 +26,6 @@ export class UsuariosLista {
                 break;
             }
         }
-        console.log('====== Actualizando usuario ======');
-        console.log(this.lista);
     }
 
     /**

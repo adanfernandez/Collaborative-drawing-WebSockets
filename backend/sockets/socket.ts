@@ -10,14 +10,16 @@ export let shapes = [];
 export const desconectar = (cliente: Socket, io: SocketIO.Server) => {
     cliente.on('disconnect', () => {
         usuariosConectados.borrarUsuarios(cliente.id);
-        console.log("Desconectando - " + usuariosConectados.getLista().length + "\n\n");
         io.emit('usuarios-activos', usuariosConectados.getLista());
+        if(!usuariosConectados.getLista().length) {
+            shapes = [];
+        }
     });
 }
 
 export const conectarCliente = (cliente: Socket, io: SocketIO.Server) => {
-        const usuario = new Usuario(cliente.id);
-        usuariosConectados.agregar(usuario);
+    const usuario = new Usuario(cliente.id);
+    usuariosConectados.agregar(usuario);
 }
 
 
@@ -58,7 +60,7 @@ export const obtenerUsuarios = (cliente: Socket, io: socketIO.Server) => {
 
 export const pintar = (cliente: Socket, io: socketIO.Server) => {
     cliente.on('dibujar', function incoming(message) {
-        shapes = message.canvas.objects;
+        shapes = message;
         cliente.broadcast.emit('get-dibujo', message);
     });
 }

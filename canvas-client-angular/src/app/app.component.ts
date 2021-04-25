@@ -62,7 +62,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       newLocation.y = newLocation.y + distance.y;
 
       if (this.isNewPath(newLocation)) {
-        console.log(this.currentLocation, newLocation);
         this.cx.moveTo(this.currentLocation.x, this.currentLocation.y);
         this.cx.lineTo(newLocation.x, newLocation.y);
         this.cx.stroke();

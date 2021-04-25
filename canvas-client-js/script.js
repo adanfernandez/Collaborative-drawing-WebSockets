@@ -4,20 +4,15 @@ function init() {
     initServer();
     canvas = new fabric.Canvas('canvas');
     canvas.freeDrawingBrush.color = 'black';
-    canvas.freeDrawingBrush.lineWidth = 20;
-    pencil.addEventListener('click', pencilHandler);
     addCircle.addEventListener('click', addCircleHandler);
+    addTriangle.addEventListener('click', addTriangleHandler);
+    addRectangle.addEventListener('click', addRectangleHandler);
+
     canvas.on('object:moving', function() {
-        console.log('Event object:moving Triggered');
+        sendObject();
     });
     canvas.on('object:modified', function() {
-        console.log('Event object:modified Triggered');
-    });
-    canvas.on('mouse:up', function() {
-        console.log('Event mouse:up Triggered');
-    });
-    canvas.on('mouse:down', function() {
-        console.log('Event mouse:down Triggered');
+        sendObject();
     });
 }
 
@@ -27,7 +22,7 @@ function initServer() {
 
     websocket.on("get-dibujo", (canvasmsg) => {
         canvas.clear();
-        const shapes = canvasmsg.canvas.objects;
+        const shapes = JSON.parse(canvasmsg.canvas);
         shapes.forEach(element => {
             canvas.add(getShapeFromServer(element));
         });
@@ -45,32 +40,26 @@ function initServer() {
 
 function getInitialShapes() {
     var url = "http://localhost:5000/dibujo";
-    $.getJSON(url, function(shapes) {
-        console.log(shapes);
-        shapes.forEach(element => {
-            canvas.add(getShapeFromServer(element));
-        });
+    $.getJSON(url, function(result) {
+        if (result.canvas) {
+            JSON.parse(result.canvas).forEach(element => {
+                canvas.add(getShapeFromServer(element));
+            });
+        }
     });
 
 }
 
 function getShapeFromServer(element) {
-    if (element.type = "circle") {
-        const obj = {
-            radius: element.radius,
-            fill: element.fill,
-            left: element.left,
-            top: element.top
-        };
-        return new fabric.Circle(obj);
+    if (element.type === "circle") {
+        return new fabric.Circle(element);
+    } else if (element.type === "rect") {
+        return new fabric.Rect(element);
+    } else if (element.type === "triangle") {
+        return new fabric.Triangle(element);
     }
 }
 
-
-
-function pencilHandler() {
-    canvas.isDrawingMode = true;
-}
 
 function addCircleHandler() {
     const obj = {
@@ -84,10 +73,37 @@ function addCircleHandler() {
     sendObject();
 }
 
-function sendObject() {
-    debugger;
-    websocket.emit("dibujar", { 'canvas': canvas });
+function addRectangleHandler() {
+    var obj = {
+        width: 60,
+        height: 70,
+        fill: 'red',
+        left: 100,
+        top: 100
+    };
+    const shape = new fabric.Rect(obj);
+    canvas.add(shape);
+    sendObject();
 }
+
+function addTriangleHandler() {
+    var obj = {
+        width: 20,
+        height: 30,
+        fill: 'blue',
+        left: 50,
+        top: 50
+    };
+    const shape = new fabric.Triangle(obj);
+    canvas.add(shape);
+    sendObject();
+}
+
+
+function sendObject() {
+    websocket.emit("dibujar", { 'canvas': JSON.stringify(canvas.getObjects()) });
+}
+
 
 function randomNumber() {
     return Math.random() * 250;
