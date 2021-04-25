@@ -26,8 +26,21 @@ function initServer() {
     websocket.on('connect', () => { console.log(websocket.connected); });
 
     websocket.on("get-dibujo", (canvasmsg) => {
-        const shape = new fabric.Circle(canvasmsg.shape);
-        canvas.add(shape);
+        canvas.clear();
+        const shapes = canvasmsg.canvas.objects;
+        shapes.forEach(element => {
+            let shape = null;
+            if (element.type = "circle") {
+                const obj = {
+                    radius: element.radius,
+                    fill: element.fill,
+                    left: element.left,
+                    top: element.top
+                };
+                shape = new fabric.Circle(obj);
+            }
+            canvas.add(shape);
+        });
     });
 
     websocket.on("usuarios-activos", (usuarios) => {
@@ -51,13 +64,13 @@ function addCircleHandler() {
         top: 100
     };
     const shape = new fabric.Circle(obj);
-    sendObject("Circulo", obj);
     canvas.add(shape);
+    sendObject();
 }
 
-function sendObject(type, obj) {
+function sendObject() {
     debugger;
-    websocket.emit("dibujar", { 'type': type, "shape": obj });
+    websocket.emit("dibujar", { 'canvas': canvas });
 }
 
 function randomNumber() {
