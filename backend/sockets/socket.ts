@@ -22,42 +22,6 @@ export const conectarCliente = (cliente: Socket, io: SocketIO.Server) => {
     usuariosConectados.agregar(usuario);
 }
 
-
-// Escuchar mensajes
-export const mensaje = (cliente: Socket, io: socketIO.Server) => {
-    // Este es el manejador del evento
-    cliente.on('mensaje', (payload) => {
-        io.emit('mensaje-nuevo', payload);
-    });
-}
-
-
-
-// Configurar usuario
-export const configurarUsuario = (cliente: Socket, io: socketIO.Server) => {
-    // Este es el manejador del evento
-    cliente.on('configurar-usuario', (payload, callback: Function) => {
-        
-        usuariosConectados.actualizarNombre(cliente.id, payload.nombre);
-
-        io.emit('usuarios-activos', usuariosConectados.getLista());
-
-        callback({
-            ok: true,
-            mensaje: `Usuario ${payload.nombre} configurado`
-        })
-    });
-}
-
-// Obtener usuarios
-export const obtenerUsuarios = (cliente: Socket, io: socketIO.Server) => {
-    cliente.on('obtener-usuarios', () => {
-        // Con el to, emitimos a un usuario específico
-        io.to(cliente.id).emit('usuarios-activos', usuariosConectados.getLista());
-    });
-}
-
-
 export const pintar = (cliente: Socket, io: socketIO.Server) => {
     cliente.on('dibujar', function incoming(message) {
         shapes = message;
