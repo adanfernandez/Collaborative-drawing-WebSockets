@@ -63,10 +63,10 @@ function getShapeFromServer(element) {
 
 function addCircleHandler() {
     const obj = {
-        radius: 20,
-        fill: 'green',
-        left: 100,
-        top: 100
+        radius: randomNumber(),
+        fill: randomColor(),
+        left: randomNumber(),
+        top: randomNumber()
     };
     const shape = new fabric.Circle(obj);
     canvas.add(shape);
@@ -75,11 +75,11 @@ function addCircleHandler() {
 
 function addRectangleHandler() {
     var obj = {
-        width: 60,
-        height: 70,
-        fill: 'red',
-        left: 100,
-        top: 100
+        width: randomNumber(),
+        height: randomNumber(),
+        fill: randomColor(),
+        left: randomNumber(),
+        top: randomNumber()
     };
     const shape = new fabric.Rect(obj);
     canvas.add(shape);
@@ -88,11 +88,11 @@ function addRectangleHandler() {
 
 function addTriangleHandler() {
     var obj = {
-        width: 20,
-        height: 30,
-        fill: 'blue',
-        left: 50,
-        top: 50
+        width: randomNumber(),
+        height: randomNumber(),
+        fill: randomColor(),
+        left: randomNumber(),
+        top: randomNumber()
     };
     const shape = new fabric.Triangle(obj);
     canvas.add(shape);
@@ -107,4 +107,10 @@ function sendObject() {
 
 function randomNumber() {
     return Math.random() * 250;
+}
+
+function randomColor() {
+    const colores = ["blue", "green", "red"];
+    const index = Math.round(Math.random() * (colores.length - 1));
+    return colores[index];
 }
